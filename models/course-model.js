@@ -18,10 +18,10 @@ const courseSchema = new Schema({
         type : String,
         required: true
     },
-    moduesl : {
-        required:true,
+    modules : [{
+        ref : 'Module',
         type : Schema.ObjectId
-    },
+    }],
     price : {
         required:true,
         type: Number
@@ -38,10 +38,6 @@ const courseSchema = new Schema({
         type: Schema.ObjectId,
         ref : 'User'
     },
-    testimonial : {
-        required:true,
-        type: [Schema.ObjectId]
-    },
     learning : {
         type : [String],
         required:true
@@ -54,6 +50,18 @@ const courseSchema = new Schema({
         required: true,
         type: Date
     }
+},
+{
+    toJSON : {virtuals:true},
+    toObject : {virtuals:true}
 })
+
+if (!courseSchema.virtuals?.testimonials) {
+  courseSchema.virtual('testimonials', {
+    ref: 'Testimonial',
+    localField: '_id',
+    foreignField: 'courseId',
+  });
+}
 
 export const Course = mongoose.models.Course ?? mongoose.model('Course',courseSchema)
