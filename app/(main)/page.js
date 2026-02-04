@@ -140,7 +140,7 @@ const HomePage = () => {
       </section>
 
      
-
+        <Element/>
       
       {/* Categories Section */}
       <section
@@ -244,8 +244,9 @@ const HomePage = () => {
           })}
         </div>
       </section>
-    
-       
+
+      <Support/>
+  
     </>
   );
 };
