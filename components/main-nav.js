@@ -1,5 +1,6 @@
+'use client';
 import Link from 'next/link'
-import React from 'react'
+import React, { useState } from 'react'
 import Logo from './logo'
 import { cn } from '@/lib/utils'
 import { X } from 'lucide-react'
@@ -7,8 +8,11 @@ import { Button,buttonVariants } from './ui/button'
 import { Menu } from 'lucide-react'
 import { DropdownMenu,DropdownMenuContent,DropdownMenuItem,DropdownMenuTrigger } from './ui/dropdown-menu'
 import { Avatar,AvatarFallback,AvatarImage } from './ui/avatar'
+import MobileNav from './mobile-nav'
 
-const MainNav = ({items}) => {
+const MainNav = ({items,children}) => {
+    const [showMobileMenu,setShowMobileMenu] = useState(false);
+
   return (
     <>
     <div className='flex gap-6 md:gap-10 '>
@@ -34,6 +38,12 @@ const MainNav = ({items}) => {
                     }
                 </nav>
             ) : null
+        }
+
+        {
+            showMobileMenu && items && (
+                <MobileNav items={items}>{children}</MobileNav>
+            )
         }
 
     </div>
@@ -96,9 +106,13 @@ const MainNav = ({items}) => {
 
             </DropdownMenu>
 
-
-
         </div>
+
+          <button onClick={()=>setShowMobileMenu((prev)=>!prev)} className='flex items-center space-x-2 lg:hidden'>
+                {
+                    showMobileMenu ? <X/> : <Menu/>
+}
+            </button>
     </nav>
     
     </>
