@@ -33,7 +33,7 @@ const MainLayout = ({children}) => {
         </div>
        </header>
 
-        <main>
+        <main className='pt-20'>
             {children}
         </main>
 
