@@ -1,4 +1,5 @@
-import React from 'react'
+'use client';
+import React, { useState } from 'react'
 
 import {
   Sheet,
@@ -74,10 +75,12 @@ const CATEGORY_OPTIONS = [
 ];
 
 
-const FilterCourseMobile = ({
-    filter,
-    setFilter
-}) => {
+const FilterCourseMobile = () => {
+    const [filter,setFilter] = useState({
+      categories : ["development"],
+      price:['free'],
+      sort:""
+    })
 
      const applyArrayFilter = ({ type, value }) => {
     const isFilterApplied = filter[type].includes(value);
