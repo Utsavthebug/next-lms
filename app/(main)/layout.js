@@ -33,7 +33,7 @@ const MainLayout = ({children}) => {
         </div>
        </header>
 
-        <main className='pt-20'>
+        <main className='flex flex-1 flex-col pt-20 border-b border-gray-700'>
             {children}
         </main>
 
