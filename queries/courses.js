@@ -20,3 +20,24 @@ export async function getCourses() {
 
      return courses
 }
+
+export async function getCourseDetails(id) {
+    const course = await Course.findById(id).populate({
+        path : "category",
+        model : Category
+    }).populate({
+        path : "instructor",
+        model : User
+    }).populate({
+        path : "modules",
+        model : Module
+    }).populate({
+        path:'testimonials',
+        populate : {
+            path : 'user',
+            model : User
+        }
+    }).lean()
+
+     return course
+}
