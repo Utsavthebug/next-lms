@@ -19,7 +19,9 @@ const SingleCoursePage = async({
      thumbnail={course?.thumbnail}
     />
 
-    <CourseDetails/>
+    <CourseDetails
+    course={course}
+    />
 
     {
       course?.testimonials && <Testimonials testimonials={course?.testimonials}/>

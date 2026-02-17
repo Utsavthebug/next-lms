@@ -18,10 +18,6 @@ const courseSchema = new Schema({
         type : String,
         required: true
     },
-    modules : [{
-        ref : 'Module',
-        type : Schema.ObjectId
-    }],
     price : {
         required:true,
         type: Number
@@ -55,6 +51,14 @@ const courseSchema = new Schema({
     toJSON : {virtuals:true},
     toObject : {virtuals:true}
 })
+
+if(!courseSchema.virtuals?.modules){
+    courseSchema.virtual('modules',{
+        ref: 'Module',
+        localField:'_id',
+        foreignField:'course'
+    })
+}
 
 if (!courseSchema.virtuals?.testimonials) {
   courseSchema.virtual('testimonials', {
