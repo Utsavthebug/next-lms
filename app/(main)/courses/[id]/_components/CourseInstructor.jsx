@@ -4,12 +4,20 @@ import { UsersRound } from "lucide-react";
 import { Star } from "lucide-react";
 import { MessageSquare } from "lucide-react";
 import Image from 'next/image';
+import { getCourseDetailsByInstructor, getCourseDetailsByInstructors } from '@/queries/courses';
 
 
-const CourseInstructor = ({course}) => {
+const CourseInstructor = async({course}) => {
   const instructor = course?.instructor
 
   const fullName = `${instructor?.firstName} ${instructor?.lastName}`
+  
+  const courseDetailsByInstructor = await getCourseDetailsByInstructor(instructor._id.toString())
+
+
+  console.log(courseDetailsByInstructor,'xxxxx')
+
+  
   return (
      <div className="bg-gray-50 rounded-md p-8">
                   <div className="md:flex md:gap-x-5 mb-8">
@@ -33,19 +41,19 @@ const CourseInstructor = ({course}) => {
                         <ul className="list space-y-4">
                           <li className="flex items-center space-x-3">
                             <Presentation className="text-gray-600" />
-                            <div>10+ Courses</div>
+                            <div>{courseDetailsByInstructor?.courses} Courses</div>
                           </li>
                           <li className="flex space-x-3">
                             <UsersRound className="text-gray-600" />
-                            <div>2k+ Student Learned</div>
+                            <div>{courseDetailsByInstructor?.enrollments}+ Student Learned</div>
                           </li>
                           <li className="flex space-x-3">
                             <MessageSquare className="text-gray-600" />
-                            <div>1500+ Reviews</div>
+                            <div>{courseDetailsByInstructor?.reviews} Reviews</div>
                           </li>
                           <li className="flex space-x-3">
                             <Star className="text-gray-600" />
-                            <div>4.9 Average Rating</div>
+                            <div>{courseDetailsByInstructor?.ratings} Average Rating</div>
                           </li>
                         </ul>
                       </div>

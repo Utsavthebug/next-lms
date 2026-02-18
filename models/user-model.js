@@ -1,4 +1,5 @@
 import mongoose, {Schema} from "mongoose";
+import { required } from "zod/v4/core/util.cjs";
 
 
 const userSchema = new Schema({
@@ -9,6 +10,14 @@ const userSchema = new Schema({
     lastName : {
         type : String,
         required: true
+    },
+    email :{
+        type:String,
+        required:true
+    },
+    phone:{
+        type : String,
+        required : false
     },
     password : {
         type : String,
