@@ -7,6 +7,7 @@ const RegisterPage = async ({
 
     const {role} = await params
 
+
   return (
     <div className='w-full flex-col h-screen flex items-center justify-center'>
         <div className='container'>

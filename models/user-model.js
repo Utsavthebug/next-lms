@@ -1,5 +1,4 @@
 import mongoose, {Schema} from "mongoose";
-import { required } from "zod/v4/core/util.cjs";
 
 
 const userSchema = new Schema({
@@ -18,6 +17,10 @@ const userSchema = new Schema({
     phone:{
         type : String,
         required : false
+    },
+    role:{
+        type : String,
+        required:true
     },
     password : {
         type : String,
