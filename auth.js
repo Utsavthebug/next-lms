@@ -21,11 +21,12 @@ export const { handlers,auth, signIn, signOut } = NextAuth({
                 }
             }
             else {
-                    throw new Error('Check your credentials')
+            throw new Error('Check your credentials')
 
             }
 
         } catch (error) {
+            throw new Error('Check your credentials')
             
         }
        } 

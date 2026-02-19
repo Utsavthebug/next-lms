@@ -9,10 +9,13 @@ import { Menu } from 'lucide-react'
 import { DropdownMenu,DropdownMenuContent,DropdownMenuItem,DropdownMenuTrigger } from './ui/dropdown-menu'
 import { Avatar,AvatarFallback,AvatarImage } from './ui/avatar'
 import MobileNav from './mobile-nav'
+import { useSession,signOut } from 'next-auth/react';
 
 const MainNav = ({items,children}) => {
     const [showMobileMenu,setShowMobileMenu] = useState(false);
+    const {data:session} = useSession();
 
+    console.log(session,'session')
   return (
     <>
     <div className='flex gap-6 md:gap-10 '>
@@ -49,7 +52,10 @@ const MainNav = ({items,children}) => {
     </div>
 
     <nav className='flex items-center gap-3'>
-        <div className='items-center gap-3 hidden lg:flex'>
+       
+       {
+        !session && (
+                    <div className='items-center gap-3 hidden lg:flex'>
             <Link href={'/login'} className={cn(buttonVariants({size:'sm'}),'px-4')}>
              Login
             </Link>
@@ -72,7 +78,13 @@ const MainNav = ({items,children}) => {
                 </DropdownMenuContent>
             </DropdownMenu>
 
-            <DropdownMenu>
+                </div>
+        )
+       }
+
+        {
+            session && (
+                            <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                     <div className='cursor-pointer'>
                        <Avatar>
@@ -88,11 +100,11 @@ const MainNav = ({items,children}) => {
 
                   <DropdownMenuContent align="end" className={"w-56 mt-4"}> 
                     <DropdownMenuItem className={'cursor-pointer'} asChild>
-                        <Link href={''}>Profile</Link>
+                        <Link href={'/account'}>Profile</Link>
                     </DropdownMenuItem>
 
                     <DropdownMenuItem className={'cursor-pointer'} asChild>
-                        <Link href={''}>My Courses</Link>
+                        <Link href={'/account/enrolled-courses'}>My Courses</Link>
                     </DropdownMenuItem>
 
                     <DropdownMenuItem className={'cursor-pointer'} asChild>
@@ -100,13 +112,16 @@ const MainNav = ({items,children}) => {
                     </DropdownMenuItem>
 
                     <DropdownMenuItem className={'cursor-pointer'} asChild>
-                        <Link href={''}>Logout</Link>
+                        <Link onClick={(e)=> {
+                            e.preventDefault()
+                            signOut()
+                        }} href={''}>Logout</Link>
                     </DropdownMenuItem>
                 </DropdownMenuContent>
 
             </DropdownMenu>
-
-        </div>
+            )
+        }
 
           <button onClick={()=>setShowMobileMenu((prev)=>!prev)} className='flex items-center space-x-2 lg:hidden'>
                 {
