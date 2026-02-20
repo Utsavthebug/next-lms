@@ -15,7 +15,6 @@ const MainNav = ({items,children}) => {
     const [showMobileMenu,setShowMobileMenu] = useState(false);
     const {data:session} = useSession();
 
-    console.log(session,'session')
   return (
     <>
     <div className='flex gap-6 md:gap-10 '>
