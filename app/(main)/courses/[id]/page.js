@@ -14,9 +14,12 @@ const SingleCoursePage = async({
   return (
     <>
     <CourseDetailIntro
-     title={course?.title}
-     subtitle={course?.subtitle} 
-     thumbnail={course?.thumbnail}
+    //  title={course?.title}
+    //  subtitle={course?.subtitle} 
+    //  thumbnail={course?.thumbnail}
+    //  price={course?.p}
+
+    course={course}
     />
 
     <CourseDetails

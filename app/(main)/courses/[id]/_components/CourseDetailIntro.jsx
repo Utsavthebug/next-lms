@@ -1,13 +1,13 @@
 import { buttonVariants } from '@/components/ui/button'
+import EnrollCourse from '@/components/ui/enroll-course'
 import { cn } from '@/lib/utils'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 
 const CourseDetailIntro = ({
-    title,
-     subtitle, 
-     thumbnail
+   
+     course
 }) => {
   return (
          <div className="overflow-x-hidden  grainy">
@@ -16,19 +16,23 @@ const CourseDetailIntro = ({
             <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
               <div className="max-w-2xl mx-auto text-center">
                 <h1 className="px-6 text-lg text-gray-600 font-inter">
-                  {title}
+                  {course?.title}
                 </h1>
                 <p className="mt-5 text-4xl font-bold leading-tight text-gray-900 sm:leading-tight sm:text-5xl lg:text-6xl lg:leading-tight font-pj">
                   <span className="relative inline-flex sm:inline">
                     <span className="bg-gradient-to-r from-[#44BCFF] via-[#FF44EC] to-[#FF675E] blur-lg filter opacity-30 w-full h-full absolute inset-0"></span>
-                    <span className="relative">{subtitle}</span>
+                    <span className="relative">{course?.subtitle}</span>
                   </span>
                 </p>
 
                 <div className="mt-6 flex items-center justify-center flex-wrap gap-3">
-                  <Link href="" className={cn(buttonVariants({ size: "lg" }))}>
+                  {/* <Link href="" className={cn(buttonVariants({ size: "lg" }))}>
                     Enroll Now
-                  </Link>
+                  </Link> */}
+
+                  <EnrollCourse
+                  />
+
                   <Link
                     href=""
                     className={cn(
@@ -37,6 +41,17 @@ const CourseDetailIntro = ({
                   >
                     See Intro
                   </Link>
+
+                      <Link
+                    href=""
+                    className={cn(
+                      buttonVariants({ variant: "destructive", size: "lg" })
+                    )}
+                  >
+                   Price : ${course?.price}
+                  </Link>
+
+
                 </div>
               </div>
             </div>
@@ -50,7 +65,7 @@ const CourseDetailIntro = ({
                       className="w-full rounded-lg"
                       width={768}
                       height={463}
-                      src={`/assets/images/courses/${thumbnail}`}
+                      src={`/assets/images/courses/${course?.thumbnail}`}
                       alt=""
                     />
                   </div>

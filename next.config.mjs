@@ -5,7 +5,12 @@ const nextConfig = {
     remotePatterns :[{
       protocol:'https',
       hostname:'i.pravatar.cc'
-    }]
+    },
+        {
+        protocol: "https",
+        hostname: "res.cloudinary.com",
+      },
+  ]
   }
 };
 

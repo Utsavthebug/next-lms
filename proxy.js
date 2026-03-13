@@ -8,7 +8,6 @@ export const proxy = auth((req) =>{
  
   const isAuthenticated = !!req.auth
 
-  console.log(req.auth,'auth data')
  
   if (!isPublicRoute && !isAuthenticated) {
     return NextResponse.redirect(new URL(LOGIN, req.nextUrl))
