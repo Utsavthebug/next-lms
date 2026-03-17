@@ -8,7 +8,7 @@ const enrollmentSchema = new Schema({
     },
     completion_date : {
         type : Date,
-        required: true
+        required: false
     },
     method:{
         type: String,

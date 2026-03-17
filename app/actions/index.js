@@ -12,6 +12,7 @@ export async function credentialLogin(formData){
         return response
 
     } catch (error) {
+        console.log(error)
         throw new Error(error)
     }
 }

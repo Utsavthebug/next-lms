@@ -3,18 +3,26 @@
 import { headers } from "next/headers";
 import { stripe } from "@/lib/stripe";
 import { formatAmountForStripe } from "@/lib/stripe-helper";
-export const CURRENCY = "usd";
+import { getCourseDetails } from "@/queries/courses";
+const CURRENCY = "usd";
 
 export async function createCheckoutSession(
   data,
 ) {
   const ui_mode = data.get(
     "uiMode",
-  );
+  ) || "hosted";
 
-  const origin = headers().get("origin");
+  const headerList = await headers()
+  const origin = headerList.get("origin");
+  const courseId = data.get('courseId');
 
+  const course = await getCourseDetails(courseId)
 
+  if(!course) return new Error(`Course not found`);
+
+  const courseName = course?.title;
+  const coursePrice = course?.price
 
   const checkoutSession =
     await stripe.checkout.sessions.create({
@@ -26,17 +34,17 @@ export async function createCheckoutSession(
           price_data: {
             currency: CURRENCY,
             product_data: {
-              name: "Custom amount donation",
+              name: courseName,
             },
             unit_amount: formatAmountForStripe(
-              19,
+              coursePrice,
               CURRENCY,
             ),
           },
         },
       ],
       ...(ui_mode === "hosted" && {
-        success_url: `${origin}/enroll-success?session_id={CHECKOUT_SESSION_ID}`,
+        success_url: `${origin}/enroll-success?session_id={CHECKOUT_SESSION_ID}&courseId=${course?._id}`,
         cancel_url: `${origin}/courses`,
       }),
       ...(ui_mode === "embedded" && {

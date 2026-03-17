@@ -31,6 +31,7 @@ const CourseDetailIntro = ({
                   </Link> */}
 
                   <EnrollCourse
+                  courseId={course?._id}
                   />
 
                   <Link
