@@ -10,11 +10,10 @@ import { redirect } from "next/navigation";
 
 
 const Success =async ({
-  searchParams : {
-    session_id,
-    courseId
-  }
+  searchParams
 }) => {
+
+  const {session_id,courseId} = await searchParams
 
   if(!session_id) {
     throw new Error("Please provide a valid session id that start with cs_")
@@ -22,12 +21,15 @@ const Success =async ({
 
   const userSession = await auth()
 
+  console.log(userSession,'user Session');
+
   if(!userSession?.user?.email) {
    redirect('/login')
   }
 
   const course = await getCourseDetails(courseId)
   const loggedInUser = await getUserByEmail(userSession?.user?.email)
+
 
 
   const checkoutSession = await stripe.checkout.sessions.retrieve(
