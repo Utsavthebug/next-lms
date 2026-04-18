@@ -52,7 +52,7 @@ const CourseCard = ({course}) => {
 
                       <EnrollCourse
                       asLink={true}
-                      courseId={course?._id}
+                      courseId={course?._id?.toString()}
                       />
                     </div>
                     </div>

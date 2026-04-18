@@ -13,6 +13,7 @@ import { Label } from "@/components/ui/label";
 import { credentialLogin } from "@/app/actions";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 export function LoginForm() {
 
@@ -30,11 +31,13 @@ export function LoginForm() {
         setError(response.error)
       }
       else {
+        toast.success('Logged in successfully!')
         router.push('/courses')
       }
 
     } catch (error) {
       setError(error.message)
+      toast.error(error.message)
     }
   }
 

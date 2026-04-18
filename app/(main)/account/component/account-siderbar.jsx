@@ -3,13 +3,17 @@ import Menu from './account-menu'
 import Image from 'next/image'
 import { auth } from '@/auth'
 import { redirect } from 'next/navigation'
+import { getUserByEmail } from '@/queries/users'
 
 const AccountSidebar = async  () => {
     const session = await auth();
 
-    if(session?.user) {
+    if(!session?.user) {
         redirect('/login')
     }
+
+	const loggedInUser = await getUserByEmail(session?.user?.email)
+
 
   return (
     <div className="lg:w-1/4 md:px-3">
@@ -25,25 +29,29 @@ const AccountSidebar = async  () => {
 						/>
 						<div>
 							<div className="relative size-28 mx-auto">
-								<Image
-									src="/assets/images/profile.jpg"
-									className="rounded-full shadow dark:shadow-gray-800 ring-4 ring-slate-50 dark:ring-slate-800"
-									id="profile-banner"
-									alt="profile-image"
-									width={112}
-									height={112}
-								/>
-								<label
+	
+							<Image
+								src={loggedInUser.profilePicture || "/assets/images/avatar.png"}
+								className="rounded-full shadow dark:shadow-gray-800 ring-4 ring-slate-50 dark:ring-slate-800"
+								alt={loggedInUser?.firstName || "User"}
+								width={112}
+								height={112}
+							/>
+															<label
 									className="absolute inset-0 cursor-pointer"
 									htmlFor="pro-img"
 								/>
 							</div>
 							<div className="mt-4">
 								<h5 className="text-lg font-semibold">
-									Jenny Jimenez
+									{`${loggedInUser?.firstName} ${loggedInUser?.lastName}`}
 								</h5>
 								<p className="text-slate-400">
-									jennyhot@hotmail.com
+								{loggedInUser?.email}
+								</p>
+
+									<p className="text-slate-400 text-sm">
+								 Role: {loggedInUser?.role}
 								</p>
 							</div>
 						</div>
