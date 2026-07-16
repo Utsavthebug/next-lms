@@ -1,5 +1,5 @@
 'use client';
-import { changePassword } from '@/app/actions/account';
+import { changePassword as passwordChange } from '@/app/actions/account';
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -24,7 +24,7 @@ const ChangePassword = ({email}) => {
 		e.preventDefault();	
 		try {
 		
-			await changePassword(email,passwordState?.oldPassword,passwordState?.newPassword)
+			await passwordChange(email,passwordState?.oldPassword,passwordState?.newPassword)
 			setPasswordState({
 				oldPassword: '',
 				newPassword: '',
@@ -39,7 +39,7 @@ const ChangePassword = ({email}) => {
 
   return (
     <div>
-						<h5 className="text-lg font-semibold mb-4">
+	<h5 className="text-lg font-semibold mb-4">
 							Change password :
 						</h5>
 						<form onSubmit={doPasswordChange}>

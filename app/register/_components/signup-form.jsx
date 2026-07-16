@@ -13,6 +13,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useRouter } from "next/navigation";
 
+
+
+
 export function SignupForm({role}) {
   const router = useRouter()
 
@@ -31,7 +34,7 @@ export function SignupForm({role}) {
 
       const response = await fetch('/api/register',{
         method:'POST',
-        headers:{
+        headers:{ 
           'Content-Type':'application/json'
         },
         body : JSON.stringify({
@@ -56,7 +59,7 @@ export function SignupForm({role}) {
         <CardTitle className="text-xl">
         <p className="mt-5 text-3xl font-bold leading-tight text-gray-900 sm:leading-tight sm:text-5xl lg:text-3xl lg:leading-tight font-pj">
        <span className="relative inline-flex sm:inline">
-                <span className="bg-gradient-to-r from-[#44BCFF] via-[#FF44EC] to-[#FF675E] blur-lg filter opacity-30 w-full h-full absolute inset-0"></span>
+                <span className="bg-linear-to-r from-[#44BCFF] via-[#FF44EC] to-[#FF675E] blur-lg filter opacity-30 w-full h-full absolute inset-0"></span>
                 <span className="relative">Sign Up</span>
           </span>
             </p></CardTitle>

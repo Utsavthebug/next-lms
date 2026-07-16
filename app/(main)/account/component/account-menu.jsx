@@ -25,6 +25,10 @@ function Menu() {
 			))}
 			<li className="navbar-item account-menu">
 				<Link
+					onClick={() => {
+						signOut({ callbackUrl: "/login" });
+					}
+				}
 					href="#"
 					className="navbar-link text-slate-400 flex items-center py-2 rounded">
 					<h6 className="mb-0 font-semibold">Sign Out</h6>
