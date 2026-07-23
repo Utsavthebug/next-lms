@@ -87,7 +87,15 @@ export async function getCourseDetails(id) {
 export async function getCourseDetailsByInstructor(instructorId) {
      const courses = await Course.find({
     instructor : instructorId
- }).lean()
+ })
+ .populate({
+    path : "category",
+    model : Category 
+ }).populate({
+    path : "instructor",
+    model : User
+ })
+ lean()
 
  const allCoursesIds = courses.map((course)=>course._id)
 
@@ -109,11 +117,20 @@ export async function getCourseDetailsByInstructor(instructorId) {
     return acc + obj.rating;
   },0))/ testimonials.length;
 
+  const instructorName = courses.length > 0 ? `${courses[0].instructor.firstName} ${courses[0].instructor.lastName}` : 'Unknown Instructor';
+  const designation = courses.length > 0 ? courses[0].instructor.designation : 'Unknown Designation';
+  const bio = courses.length > 0 ? courses[0].instructor.bio : 'No bio available';
+  const instructorImage = courses.length > 0 ? courses[0].instructor.profilePicture : '/assets/images/default-profile.png';
 
  return {
     'courses' : courses.length,
     'enrollments':totalEnrollments,
     'reviews' : testimonials.length,
-    'ratings':avgRating.toPrecision(2)
+    'ratings':avgRating.toPrecision(2),
+    'instructorName':instructorName,
+    'courses' : courses,
+    'designation' : designation,
+    'bio' : bio,
+    'instructorImage' : instructorImage
  }
 }

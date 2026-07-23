@@ -4,7 +4,8 @@ import { UsersRound } from "lucide-react";
 import { Star } from "lucide-react";
 import { MessageSquare } from "lucide-react";
 import Image from 'next/image';
-import { getCourseDetailsByInstructor, getCourseDetailsByInstructors } from '@/queries/courses';
+import { getCourseDetailsByInstructor } from '@/queries/courses';
+import Link from 'next/link';
 
 
 const CourseInstructor = async({course}) => {
@@ -13,9 +14,6 @@ const CourseInstructor = async({course}) => {
   const fullName = `${instructor?.firstName} ${instructor?.lastName}`
   
   const courseDetailsByInstructor = await getCourseDetailsByInstructor(instructor._id.toString())
-
-
-  console.log(courseDetailsByInstructor,'xxxxx')
 
   
   return (
@@ -54,6 +52,12 @@ const CourseInstructor = async({course}) => {
                           <li className="flex space-x-3">
                             <Star className="text-gray-600" />
                             <div>{courseDetailsByInstructor?.ratings} Average Rating</div>
+                          </li>
+
+                          <li className="flex space-x-3">
+                        <Link href={`/inst-profile/${instructor?._id}`} className="text-sky-700 hover:text-sky-900 font-medium">
+                        <div className="text-red-600 font-bold ">See Profile</div>
+                        </Link>
                           </li>
                         </ul>
                       </div>

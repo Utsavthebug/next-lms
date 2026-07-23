@@ -69,7 +69,7 @@ const EnrolledCourseCard = async({ enrollment }) => {
 									Total Quizzes: {totalQuizzes}
 								</span>
 								<div className="text-md md:text-sm font-medium text-slate-700">
-									Quiz taken <Badge variant="success">{totalAttemptedQuizzes}</Badge>
+									Quiz taken <Badge variant="success">{quizzesTaken?.length || 0}</Badge>
 								</div>
 							</div>
 							<div className="flex items-center justify-between mt-2">
