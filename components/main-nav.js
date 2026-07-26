@@ -15,6 +15,24 @@ const MainNav = ({items,children}) => {
     const [showMobileMenu,setShowMobileMenu] = useState(false);
     const {data:session} = useSession();
 
+    const [loggedInUser,setLoggedInUser] = useState(null);
+
+    useEffect(()=> {
+      async function fetchMe(){
+        try{
+            const response = await fetch('/api/me') 
+            const data = await response.json()     
+            setLoggedInUser(data)
+        }
+        catch(err){
+            console.log(err)
+        }
+      }
+
+      fetchMe()
+      
+    },[])
+
   return (
     <>
     <div className='flex gap-6 md:gap-10 '>
@@ -88,7 +106,7 @@ const MainNav = ({items,children}) => {
                     <div className='cursor-pointer'>
                        <Avatar>
                          <AvatarImage 
-                        src="https://github.com/shadcn.png"
+                    src={loggedInUser?.profilePicture}
                         alt=""
                         />
                         <AvatarFallback>CN</AvatarFallback>
@@ -98,6 +116,14 @@ const MainNav = ({items,children}) => {
                 </DropdownMenuTrigger>
 
                   <DropdownMenuContent align="end" className={"w-56 mt-4"}> 
+                    {
+                        loggedInUser?.role === 'instructor' && (
+                            <DropdownMenuItem className={'cursor-pointer'} asChild>
+                                <Link href={'/instructor/dashboard'}><strong>Instructor</strong> Dashboard</Link>
+                            </DropdownMenuItem>
+                        )
+                    }
+
                     <DropdownMenuItem className={'cursor-pointer'} asChild>
                         <Link href={'/account'}>Profile</Link>
                     </DropdownMenuItem>

@@ -83,6 +83,17 @@ export async function getCourseDetails(id) {
 //   }
 // }
 
+function groupBy(array, keyFn){
+    return array.reduce((acc, item) => {
+        const key = keyFn(item);
+        if (!acc[key]) {
+            acc[key] = [];
+        }
+        acc[key].push(item);
+        return acc
+    },{});
+}
+
 
 export async function getCourseDetailsByInstructor(instructorId) {
      const courses = await Course.find({
@@ -104,6 +115,14 @@ export async function getCourseDetailsByInstructor(instructorId) {
         $in : allCoursesIds
     }
  })
+
+ const groupByCourses = groupBy(enrollments, (item)=>item.course);
+
+
+ const totalRevenue = courses.reduce((acc, course) => {
+    const enrollmentsForCourse = groupByCourses[course._id] || [];
+    return acc + enrollmentsForCourse.length * course.price;
+ }, 0);
 
  const totalEnrollments = enrollments.length
 
@@ -131,6 +150,7 @@ export async function getCourseDetailsByInstructor(instructorId) {
     'courses' : courses,
     'designation' : designation,
     'bio' : bio,
-    'instructorImage' : instructorImage
+    'instructorImage' : instructorImage,
+    'revenue' : totalRevenue
  }
 }
