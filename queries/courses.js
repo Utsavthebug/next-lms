@@ -95,7 +95,7 @@ function groupBy(array, keyFn){
 }
 
 
-export async function getCourseDetailsByInstructor(instructorId) {
+export async function getCourseDetailsByInstructor(instructorId,expand) {
      const courses = await Course.find({
     instructor : instructorId
  })
@@ -141,13 +141,22 @@ export async function getCourseDetailsByInstructor(instructorId) {
   const bio = courses.length > 0 ? courses[0].instructor.bio : 'No bio available';
   const instructorImage = courses.length > 0 ? courses[0].instructor.profilePicture : '/assets/images/default-profile.png';
 
+
+  if(expand) {
+    return {
+     'courses' : courses,
+    'enrollments':enrollments,
+    'reviews' : testimonials,     
+    }
+  }
+
  return {
     'courses' : courses.length,
     'enrollments':totalEnrollments,
     'reviews' : testimonials.length,
     'ratings':avgRating.toPrecision(2),
     'instructorName':instructorName,
-    'courses' : courses,
+    'inscourses' : courses,
     'designation' : designation,
     'bio' : bio,
     'instructorImage' : instructorImage,
