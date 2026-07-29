@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { formatPrice } from "@/lib/formatPrice";
-import auth from "@/auth"
+import {auth} from "@/auth"
 import { redirect } from "next/navigation";
 import {getUserByEmail} from "@/queries/users";
 import { getCourseDetailsByInstructor } from "@/queries/courses";
@@ -15,10 +15,8 @@ const DashboardPage = async () => {
 
   if(instructor?.role!== "instructor") redirect("/login")
 
-  const courseStatus = await getCourseDetailsByInstructor(instructor?._id)
+  const courseStatus = await getCourseDetailsByInstructor(instructor?.id)
   
-
-
   return (
     <div className="p-6">
       

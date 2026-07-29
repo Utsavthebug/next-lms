@@ -66,7 +66,7 @@ export const columns = [
 
       return (
         <Badge className={cn("bg-gray-500", active && "bg-green-600")}>
-          {isPublished ? "Published" : "Unpublished"}
+          {active ? "Active" : "InActive"}
         </Badge>
       );
     },

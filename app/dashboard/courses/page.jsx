@@ -1,6 +1,7 @@
 import { getInstructorDashboardData } from "@/lib/dashboard-helpers";
 import { columns } from "./_components/columns";
 import { DataTable } from "./_components/data-table";
+import { serializeData } from "@/lib/serialize";
 
 // const courses = [
 //   {
@@ -17,8 +18,8 @@ import { DataTable } from "./_components/data-table";
 //   },
 // ];
 const CoursesPage = async () => {
-  const courses = serializeData(await getInstructorDashboardData());
-
+  const courses = serializeData(await getInstructorDashboardData('courses'));
+  
   return (
     <div className="p-6">
       {/* <Link href="/teacher/create">

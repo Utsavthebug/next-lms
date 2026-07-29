@@ -19,7 +19,7 @@ export const SidebarItem = ({ icon: Icon, label, href }) => {
       onClick={onClick}
       type="button"
       className={cn(
-        "flex items-center gap-x-2 text-slate-500 text-sm font-[500] pl-6 transition-all hover:text-slate-600 hover:bg-slate-300/20",
+        "flex items-center relative gap-x-2 text-slate-500 text-sm font-[500] pl-6 transition-all hover:text-slate-600 hover:bg-slate-300/20",
         isActive &&
           "text-emerald-600 bg-emerald-200/20 hover:bg-emerald-200/20 hover:text-emerald-600"
       )}
@@ -31,12 +31,11 @@ export const SidebarItem = ({ icon: Icon, label, href }) => {
         />
         {label}
       </div>
-      <div
-        className={cn(
-          "ml-auto opacity-0 border-2 border-emerald-600 h-full transition-all",
-          isActive && "opacity-100"
-        )}
-      />
+
+    {isActive && (
+    <div className="absolute right-0 top-0 h-full w-1 bg-emerald-600" />
+  )}
+
     </button>
   );
 };

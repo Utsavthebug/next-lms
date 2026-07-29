@@ -1,4 +1,5 @@
 import { auth } from "@/auth";
+import { getUserByEmail } from "@/queries/users";
 import { dbConnect } from "@/service/mongo";
 
 export const GET  = async (req, res) => {

@@ -105,7 +105,7 @@ export async function getCourseDetailsByInstructor(instructorId,expand) {
  }).populate({
     path : "instructor",
     model : User
- })
+ }).
  lean()
 
  const allCoursesIds = courses.map((course)=>course._id)

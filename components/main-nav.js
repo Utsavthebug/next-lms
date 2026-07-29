@@ -1,6 +1,6 @@
 'use client';
 import Link from 'next/link'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Logo from './logo'
 import { cn } from '@/lib/utils'
 import { X } from 'lucide-react'
@@ -32,6 +32,8 @@ const MainNav = ({items,children}) => {
       fetchMe()
       
     },[])
+
+    console.log(loggedInUser,'logged in user');
 
   return (
     <>
@@ -119,7 +121,7 @@ const MainNav = ({items,children}) => {
                     {
                         loggedInUser?.role === 'instructor' && (
                             <DropdownMenuItem className={'cursor-pointer'} asChild>
-                                <Link href={'/instructor/dashboard'}><strong>Instructor</strong> Dashboard</Link>
+                                <Link href={'/dashboard'}><strong>Instructor Dashboard</strong></Link>
                             </DropdownMenuItem>
                         )
                     }
