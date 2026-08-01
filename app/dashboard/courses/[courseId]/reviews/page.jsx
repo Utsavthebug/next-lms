@@ -11,7 +11,6 @@ const ReviewsPage = async ({params}) => {
   const reviews  =  serializeData(await getTestimonialsForCourse(courseId))
 
 
-  console.log('reviews',reviews)
   return (
     <div className="p-6">
       <h2>{course?.title}</h2>
