@@ -9,7 +9,7 @@ import { getEnrollmentForCourse } from "./enrollments";
 import { getTestimonialsForCourse } from "./testimonials";
 
 export async function getCourses() {
-    const courses = await Course.find({}).select(['title','subtitle','thumbnail','modules','price','category','instructor']).populate({
+    const courses = await Course.find({active:true}).select(['title','subtitle','thumbnail','modules','price','category','instructor']).populate({
         path : "category",
         model : Category
 
@@ -45,43 +45,17 @@ export async function getCourseDetails(id) {
      return course
 }
 
-// export async function getCourseDetailsByInstructor(instructorId){
-//  const courses = await Course.find({
-//     instructor : instructorId
-//  }).lean()
 
-//  const enrollments = await Promise.all(
-//     courses.map(async(course)=>{
-//         const enrollment = await getEnrollmentForCourse(course._id.toString())
-//         return enrollment
-//     })
-//  );
+export async function create(courseData) {
+    try {
+        const course = await Course.create(courseData);
+        return JSON.parse(JSON.stringify(course));
+    }
+    catch (error) {
+        throw new Error(error);
+    }
+}
 
-//  const totalEnrollments = enrollments.reduce((item,currentValue)=> {
-//   return item + currentValue.length  
-//  },0)
-
-
-//  const testimonials = await Promise.all(
-//      courses.map(async(course)=>{
-//         const testimonial = await getTestimonialsForCourse(course._id.toString())
-//         return testimonial;
-//     })
-//  )
-
-//   const totalTestimonials = testimonials.flat()
-
-//   const avgRating = (totalTestimonials.reduce(function(acc,obj){
-//     return acc + obj.rating;
-//   },0))/ totalTestimonials.length;
-
-//   return {
-//     'courses': courses.length,
-//     'enrollments':totalEnrollments,
-//     'reviews' : totalTestimonials.length,
-//     'ratings':avgRating.toPrecision(2)
-//   }
-// }
 
 function groupBy(array, keyFn){
     return array.reduce((acc, item) => {

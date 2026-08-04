@@ -8,7 +8,6 @@ const courseSchema = new Schema({
     },
     subtitle : {
         type : String,
-        required: true
     },
     descriptiom : {
         type : String,
@@ -16,14 +15,15 @@ const courseSchema = new Schema({
     },
     thumbnail : {
         type : String,
-        required: true
     },
     price : {
         required:true,
+        default: 0,
         type: Number
     },
     active : {
         required:true,
+        default: false,
         type: Boolean
     },
     category : {
@@ -36,15 +36,19 @@ const courseSchema = new Schema({
     },
     learning : {
         type : [String],
-        required:true
+    },
+    quizSet: {
+        type : Schema.ObjectId,
     },
     createdOn :{
         required:true,
-        type : Date
+        type : Date,
+        default: Date.now()
     },
     modifiedOn : {
         required: true,
-        type: Date
+        type: Date,
+        default: Date.now()
     }
 },
 {
