@@ -40,7 +40,7 @@ export async function getCourseDetails(id) {
             path : 'user',
             model : User
         }
-    }).lean()
+    }).lean({virtuals:true})
 
      return course
 }
@@ -114,7 +114,10 @@ export async function getCourseDetailsByInstructor(instructorId,expand) {
     course : {
         $in : allCoursesIds
     }
- })
+ }).populate({
+    path : "student",
+    model : User
+ }).lean()
 
  const groupByCourses = groupBy(enrollments, (item)=>item.course);
 

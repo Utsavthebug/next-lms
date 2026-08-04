@@ -13,7 +13,7 @@ const ReviewsPage = async ({params}) => {
 
   return (
     <div className="p-6">
-      <h2>{course?.title}</h2>
+      <h2 className="text-3xl text-gray-700 font-bold">{course?.title}</h2>
       <DataTable columns={columns} data={reviews} />
     </div>
   );

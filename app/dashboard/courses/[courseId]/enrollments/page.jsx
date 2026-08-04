@@ -7,8 +7,7 @@ import { serializeData } from "@/lib/serialize";
 const EnrollmentsPage = async ({params}) => {
   const {courseId} = await params;
   const course = await getCourseDetails(courseId)
-  const enrollments = await getEnrollmentDashboardData(courseId);
-
+  const enrollments =  serializeData(await getEnrollmentDashboardData(courseId));
 
   return (
     <div className="p-6">

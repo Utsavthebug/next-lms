@@ -2,21 +2,15 @@
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+
 import { cn } from "@/lib/utils";
-import { GraduationCap } from "lucide-react";
-import { ArrowUpDown, MoreHorizontal, Pencil } from "lucide-react";
-import Link from "next/link";
+import { ArrowUpDown } from "lucide-react";
+import {formatMyDate} from "@/lib/date";
 
 export const columns = [
   {
     id: "name",
-    accessorKey: "student.name",
+    accessorKey: "studentName",
     header: ({ column }) => {
       return (
         <Button
@@ -29,7 +23,7 @@ export const columns = [
     },
   },
   {
-    accessorKey: "student.email",
+    accessorKey: "studentEmail",
     header: ({ column }) => {
       return (
         <Button
@@ -42,7 +36,7 @@ export const columns = [
     },
   },
   {
-    accessorKey: "student.quizMark",
+    accessorKey: "quizMark",
     header: ({ column }) => {
       return (
         <Button
@@ -55,7 +49,7 @@ export const columns = [
     },
   },
   {
-    accessorKey: "student.progress",
+    accessorKey: "progress",
     header: ({ column }) => {
       return (
         <Button
@@ -66,9 +60,20 @@ export const columns = [
         </Button>
       );
     },
+    cell: ({ getValue }) => {
+      const progress = getValue();
+      return (
+        <Badge
+          variant={progress === 100 ? "success" : "secondary"}
+          className={cn("w-[60px] text-center")}
+        >
+          {progress}%
+        </Badge>
+      );
+    }
   },
   {
-    accessorKey: "date",
+    accessorKey: "enrollment_date",
     header: ({ column }) => {
       return (
         <Button
@@ -79,6 +84,11 @@ export const columns = [
         </Button>
       );
     },
+      cell: ({ getValue }) => {
+    const date = getValue();
+
+    return formatMyDate(date);
+  },
   },
   // {
   //   id: "actions",

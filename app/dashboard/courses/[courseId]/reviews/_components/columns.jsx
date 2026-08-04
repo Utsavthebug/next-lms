@@ -1,22 +1,16 @@
 "use client";
 
-import { Badge } from "@/components/ui/badge";
+import StarRating from "@/components/star-rating";
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
-import { GraduationCap } from "lucide-react";
-import { ArrowUpDown, MoreHorizontal, Pencil } from "lucide-react";
-import Link from "next/link";
+import { ArrowUpDown, MoreHorizontal, Pencil, Star } from "lucide-react";
+
+
 
 export const columns = [
   {
     id: "name",
-     accessorFn: (row) => `${row?.user?.first_name ?? ""} ${row?.user?.last_name ?? ""}`.trim(),
+     accessorFn: (row) => `${row?.user?.firstName ?? ""} ${row?.user?.lastName ?? ""}`.trim(),
     header: ({ column }) => {
       return (
         <Button
@@ -40,6 +34,14 @@ export const columns = [
         </Button>
       );
     },
+      cell: ({ getValue }) => {
+      const rating = getValue();
+      return (
+        <div className="flex">
+          <StarRating rating={rating} />
+        </div>
+      );
+    }
   },
   {
     accessorKey: "content",
