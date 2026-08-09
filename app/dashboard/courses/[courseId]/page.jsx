@@ -14,8 +14,25 @@ import { TitleForm } from "./_components/title-form";
 import { CourseActions } from "./_components/course-action";
 import AlertBanner from "@/components/alert-banner";
 import { QuizSetForm } from "./_components/quiz-set-form";
+import { getCourseDetails } from "@/queries/courses";
+import { Sub } from "@radix-ui/react-dropdown-menu";
+import { SubtitleForm } from "./_components/subtitle-form";
+import { getCategories } from "@/queries/categories";
+import { serializeData } from "@/lib/serialize";
 
-const EditCourse = () => {
+const EditCourse = async ({params}) => {
+  const { courseId } = await params;
+
+  const course = serializeData(await getCourseDetails(courseId));
+
+  const categories = serializeData(await getCategories()) ;
+
+  const mapped_categories = categories.map((category) => ({
+    label: category.title,
+    value: category.title,
+    id: category.id,
+  }));
+
   return (
     <>
       <AlertBanner
@@ -34,15 +51,31 @@ const EditCourse = () => {
             </div>
             <TitleForm
               initialData={{
-                title: "Reactive Accelerator",
+              title: course?.title,
               }}
-              courseId={1}
+              courseId={courseId}
             />
-            <DescriptionForm initialData={{}} courseId={1} />
-            <ImageForm initialData={{}} courseId={1} />
-            <CategoryForm initialData={{}} courseId={1} />
 
-            <QuizSetForm initialData={{}} courseId={1} />
+            <SubtitleForm
+              initialData={{
+              subtitle: course?.subtitle,
+              }}
+              courseId={courseId}
+            />
+
+            <DescriptionForm initialData={{
+              description: course?.description,
+            }} courseId={courseId} />
+            <ImageForm initialData={{
+              imageUrl: `/assets/images/courses/${course?.image}`,
+            }} courseId={courseId} />
+            <CategoryForm initialData={{
+              value: course?.category?.title,
+            }} courseId={courseId} 
+            options={mapped_categories}
+            />
+
+            <QuizSetForm initialData={{}} courseId={courseId} />
           </div>
           <div className="space-y-6">
             <div>
@@ -58,7 +91,7 @@ const EditCourse = () => {
                 <IconBadge icon={CircleDollarSign} />
                 <h2 className="text-xl">Sell you course</h2>
               </div>
-              <PriceForm initialData={{}} courseId={1} />
+              <PriceForm initialData={{price : course?.price}} courseId={courseId} />
             </div>
           </div>
         </div>

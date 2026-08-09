@@ -71,7 +71,12 @@ function groupBy(array, keyFn){
 
 export async function getCourseDetailsByInstructor(instructorId,expand) {
      const courses = await Course.find({
-    instructor : instructorId
+    instructor : instructorId,
+    active : true
+ })
+ .populate({
+    path : "testimonials",
+    model : Testimonial
  })
  .populate({
     path : "category",

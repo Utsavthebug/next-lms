@@ -8,8 +8,9 @@ const courseSchema = new Schema({
     },
     subtitle : {
         type : String,
+        default: ''
     },
-    descriptiom : {
+    description : {
         type : String,
         required: true
     },
