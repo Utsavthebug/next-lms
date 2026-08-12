@@ -19,6 +19,7 @@ import { Sub } from "@radix-ui/react-dropdown-menu";
 import { SubtitleForm } from "./_components/subtitle-form";
 import { getCategories } from "@/queries/categories";
 import { serializeData } from "@/lib/serialize";
+import { replaceMongoIdInArray } from "@/lib/convertData";
 
 const EditCourse = async ({params}) => {
   const { courseId } = await params;
@@ -32,6 +33,8 @@ const EditCourse = async ({params}) => {
     value: category.title,
     id: category.id,
   }));
+
+  const modules = replaceMongoIdInArray(course?.modules || [])?.sort((a, b) => a.order - b.order);
 
   return (
     <>
@@ -67,7 +70,7 @@ const EditCourse = async ({params}) => {
               description: course?.description,
             }} courseId={courseId} />
             <ImageForm initialData={{
-              imageUrl: `/assets/images/courses/${course?.image}`,
+              imageUrl: course?.thumbnail?.url,
             }} courseId={courseId} />
             <CategoryForm initialData={{
               value: course?.category?.title,
@@ -84,7 +87,7 @@ const EditCourse = async ({params}) => {
                 <h2 className="text-xl">Course Modules</h2>
               </div>
 
-              <ModulesForm initialData={[]} courseId={[]} />
+              <ModulesForm initialData={modules} courseId={courseId} />
             </div>
             <div>
               <div className="flex items-center gap-x-2">

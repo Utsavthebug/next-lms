@@ -1,5 +1,26 @@
 import mongoose, {Schema} from "mongoose";
 
+const mediaSchema = new Schema({
+    public_id : {
+        type : String,
+        required: true
+    },
+    url : {
+        type : String,
+        required: true
+    },
+    resource_type : {
+        type : String,
+        enum : ['image','video'],
+        required: true,
+        default: 'image'
+    }
+},
+{
+    _id : false,
+})
+
+
 
 const courseSchema = new Schema({
     title : {
@@ -15,7 +36,8 @@ const courseSchema = new Schema({
         required: true
     },
     thumbnail : {
-        type : String,
+        type : mediaSchema,
+        required: false
     },
     price : {
         required:true,

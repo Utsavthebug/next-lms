@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 // import axios from "axios";
 import { ImageIcon, Pencil, PlusCircle } from "lucide-react";
@@ -36,6 +36,8 @@ export const ImageForm = ({ initialData, courseId }) => {
     }
   };
 
+  console.log("initialData", initialData);
+
   useEffect(() => {
     if (file) {
         
@@ -61,11 +63,12 @@ export const ImageForm = ({ initialData, courseId }) => {
            toast.error(e.message);
         }
 
-      uploadFile();
       }
+
+      uploadFile();
+
       
       }
-      uploadFile();
     
   }, [file]);
 
