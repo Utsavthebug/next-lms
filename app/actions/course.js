@@ -26,3 +26,24 @@ export async function updateCourse(courseId, courseData) {
         throw new Error(error)
     }
 }
+
+
+export async function changeCoursePublishState(courseId) {
+    const course = await Course.findById(courseId);
+    try {
+        const res = await Course.findByIdAndUpdate(courseId, {active: !course.active},{lean:true});
+        return res.active
+
+    } catch (error) {
+        throw new Error(error);
+    }
+}
+
+
+export async function deleteCourse(courseId){
+    try {
+        await Course.findByIdAndDelete(courseId);  
+    } catch (err) {
+        throw new Error(err);
+    }
+}

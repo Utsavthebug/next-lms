@@ -33,7 +33,6 @@ const MainNav = ({items,children}) => {
       
     },[])
 
-    console.log(loggedInUser,'logged in user');
 
   return (
     <>

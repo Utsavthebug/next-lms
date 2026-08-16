@@ -25,8 +25,8 @@ const moduleSchema = new Schema({
         ref : 'Course'
     },
     lessonIds : {
-       required : true,
-       type : [String]
+       type : [Schema.ObjectId],
+       ref : 'Lesson'
     },
     duration : {
         type : Number,
@@ -38,4 +38,4 @@ const moduleSchema = new Schema({
     }
 })
 
-export const Module = mongoose.models.Module ?? mongoose.model('Module',moduleSchema)
+export const Module = mongoose.models?.Module ?? mongoose.model('Module',moduleSchema)

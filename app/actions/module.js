@@ -1,5 +1,36 @@
+'use server'
 import { create } from "@/queries/modules";
 import { Module } from "@/models/module-model";
+
+
+export async function changeModulePublishState(moduleId){
+ const module = await Module.findById(moduleId)
+ 
+ try {
+    const res = await Module.findByIdAndUpdate(moduleId,{
+      active : !module.active
+    }, {
+      lean:true,
+      new:true
+    })
+
+    return res.active
+
+ } catch (error) {
+  throw new Error(error)  
+ }
+}
+
+
+export async function deleteModule(moduleId,courseId) {
+  try {
+    await Module.findByIdAndDelete(moduleId)
+
+  } catch (error) {
+    throw new Error(error)
+  } 
+}
+
 
 export async function createModule(data) {
     try {
@@ -15,7 +46,7 @@ export async function createModule(data) {
             order,
         });
 
-        return createdModule;
+        return    JSON.parse(JSON.stringify(createdModule));
     } catch (error) {
         throw new Error(error);
     }

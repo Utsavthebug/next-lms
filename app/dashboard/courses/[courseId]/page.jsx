@@ -38,10 +38,16 @@ const EditCourse = async ({params}) => {
 
   return (
     <>
-      <AlertBanner
+
+    {
+      !course.active && (
+         <AlertBanner
         label="This course is unpublished. It will not be visible in the course."
         variant="warning"
       />
+      )
+    }
+     
       <div className="p-6">
         <div className="flex items-center justify-end">
           <CourseActions />

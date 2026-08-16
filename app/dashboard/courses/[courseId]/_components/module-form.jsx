@@ -62,8 +62,10 @@ export const ModulesForm = ({ initialData, courseId }) => {
       ]);
       toast.success("Module created");
       toggleCreating();
+      form.reset();
       router.refresh();
     } catch (error) {
+      console.error(error);
       toast.error("Something went wrong");
     }
   };
@@ -82,7 +84,7 @@ export const ModulesForm = ({ initialData, courseId }) => {
   };
 
   const onEdit = (id) => {
-    router.push(`/dashboard/courses/1/modules/${id}`);
+    router.push(`/dashboard/courses/${courseId}/modules/${id}`);
   };
 
   return (

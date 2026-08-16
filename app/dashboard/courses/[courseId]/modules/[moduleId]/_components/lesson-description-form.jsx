@@ -15,10 +15,12 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { cn } from "@/lib/utils";
+import { Textarea } from "@/components/ui/textarea";
 import { Pencil } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
+import { updateLesson } from "@/app/actions/lesson";
 
 const formSchema = z.object({
   description: z.string().min(1),
@@ -29,6 +31,7 @@ export const LessonDescriptionForm = ({ initialData, courseId, lessonId }) => {
   const [isEditing, setIsEditing] = useState(false);
 
   const toggleEdit = () => setIsEditing((current) => !current);
+  const [description,setDescription] = useState(initialData?.description)
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -41,6 +44,8 @@ export const LessonDescriptionForm = ({ initialData, courseId, lessonId }) => {
 
   const onSubmit = async (values) => {
     try {
+      await updateLesson(lessonId,values)
+      setDescription(values.title)
       toast.success("Lesson updated");
       toggleEdit();
       router.refresh();
@@ -65,17 +70,12 @@ export const LessonDescriptionForm = ({ initialData, courseId, lessonId }) => {
         </Button>
       </div>
       {!isEditing && (
-        <div
-          className={cn(
-            "text-sm mt-2",
-            !initialData.description && "text-slate-500 italic"
-          )}
+        <p
+          className="text-sm mt-2"
         >
-          {!initialData.description && "No description"}
-          {initialData.description && (
-            <Preview value={initialData.description} />
-          )}
-        </div>
+          {!description && "No description"}
+         
+        </p>
       )}
       {isEditing && (
         <Form {...form}>
@@ -89,7 +89,10 @@ export const LessonDescriptionForm = ({ initialData, courseId, lessonId }) => {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Editor {...field} />
+                <Textarea
+                disabled={isSubmitting}
+                placeholder="e.g. This course is about..."
+                />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
