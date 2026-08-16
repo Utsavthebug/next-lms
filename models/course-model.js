@@ -1,5 +1,26 @@
 import mongoose, {Schema} from "mongoose";
 
+const mediaSchema = new Schema({
+    public_id : {
+        type : String,
+        required: true
+    },
+    url : {
+        type : String,
+        required: true
+    },
+    resource_type : {
+        type : String,
+        enum : ['image','video'],
+        required: true,
+        default: 'image'
+    }
+},
+{
+    _id : false,
+})
+
+
 
 const courseSchema = new Schema({
     title : {
@@ -8,22 +29,24 @@ const courseSchema = new Schema({
     },
     subtitle : {
         type : String,
-        required: true
+        default: ''
     },
-    descriptiom : {
+    description : {
         type : String,
         required: true
     },
     thumbnail : {
-        type : String,
-        required: true
+        type : mediaSchema,
+        required: false
     },
     price : {
         required:true,
+        default: 0,
         type: Number
     },
     active : {
         required:true,
+        default: false,
         type: Boolean
     },
     category : {
@@ -36,15 +59,19 @@ const courseSchema = new Schema({
     },
     learning : {
         type : [String],
-        required:true
+    },
+    quizSet: {
+        type : Schema.ObjectId,
     },
     createdOn :{
         required:true,
-        type : Date
+        type : Date,
+        default: Date.now()
     },
     modifiedOn : {
         required: true,
-        type: Date
+        type: Date,
+        default: Date.now()
     }
 },
 {

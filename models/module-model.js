@@ -8,12 +8,14 @@ const moduleSchema = new Schema({
     },
      description : {
         type : String,
-        required: true
+        required: false
     },
-     status : {
-        type : String,
-        required: true
+     active : {
+        type : Boolean,
+        required: true,
+        default : false
     },
+   
      slug : {
         type : String,
         required: true
@@ -23,13 +25,17 @@ const moduleSchema = new Schema({
         ref : 'Course'
     },
     lessonIds : {
-       required : true,
-       type : [String]
+       type : [Schema.ObjectId],
+       ref : 'Lesson'
     },
     duration : {
         type : Number,
-        required:true
+        required:false
+    },
+    order : {
+        type : Number,
+        required : true
     }
 })
 
-export const Module = mongoose.models.Module ?? mongoose.model('Module',moduleSchema)
+export const Module = mongoose.models?.Module ?? mongoose.model('Module',moduleSchema)

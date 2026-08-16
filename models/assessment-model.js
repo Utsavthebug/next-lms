@@ -12,4 +12,4 @@ const assessmentSchema = new Schema({
   }
 })
 
-const Assessment = mongoose.models.Assessment ?? mongoose.model('Assessment',assessmentSchema)
+export const Assessment = mongoose.models.Assessment ?? mongoose.model('Assessment',assessmentSchema)

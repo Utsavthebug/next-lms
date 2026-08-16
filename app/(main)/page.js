@@ -93,6 +93,7 @@ const HomePage = async() => {
                     alt={category.title}
                     width={100}
                     height={100}
+                    unoptimized
                   />
                   <h3 className="font-bold">{category.title}</h3>
                 </div>

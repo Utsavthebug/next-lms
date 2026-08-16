@@ -9,7 +9,7 @@ import { getEnrollmentForCourse } from "./enrollments";
 import { getTestimonialsForCourse } from "./testimonials";
 
 export async function getCourses() {
-    const courses = await Course.find({}).select(['title','subtitle','thumbnail','modules','price','category','instructor']).populate({
+    const courses = await Course.find({active:true}).select(['title','subtitle','thumbnail','modules','price','category','instructor']).populate({
         path : "category",
         model : Category
 
@@ -40,53 +40,43 @@ export async function getCourseDetails(id) {
             path : 'user',
             model : User
         }
-    }).lean()
+    }).lean({virtuals:true})
 
      return course
 }
 
-// export async function getCourseDetailsByInstructor(instructorId){
-//  const courses = await Course.find({
-//     instructor : instructorId
-//  }).lean()
 
-//  const enrollments = await Promise.all(
-//     courses.map(async(course)=>{
-//         const enrollment = await getEnrollmentForCourse(course._id.toString())
-//         return enrollment
-//     })
-//  );
-
-//  const totalEnrollments = enrollments.reduce((item,currentValue)=> {
-//   return item + currentValue.length  
-//  },0)
+export async function create(courseData) {
+    try {
+        const course = await Course.create(courseData);
+        return JSON.parse(JSON.stringify(course));
+    }
+    catch (error) {
+        throw new Error(error);
+    }
+}
 
 
-//  const testimonials = await Promise.all(
-//      courses.map(async(course)=>{
-//         const testimonial = await getTestimonialsForCourse(course._id.toString())
-//         return testimonial;
-//     })
-//  )
-
-//   const totalTestimonials = testimonials.flat()
-
-//   const avgRating = (totalTestimonials.reduce(function(acc,obj){
-//     return acc + obj.rating;
-//   },0))/ totalTestimonials.length;
-
-//   return {
-//     'courses': courses.length,
-//     'enrollments':totalEnrollments,
-//     'reviews' : totalTestimonials.length,
-//     'ratings':avgRating.toPrecision(2)
-//   }
-// }
+function groupBy(array, keyFn){
+    return array.reduce((acc, item) => {
+        const key = keyFn(item);
+        if (!acc[key]) {
+            acc[key] = [];
+        }
+        acc[key].push(item);
+        return acc
+    },{});
+}
 
 
-export async function getCourseDetailsByInstructor(instructorId) {
+export async function getCourseDetailsByInstructor(instructorId,expand) {
      const courses = await Course.find({
-    instructor : instructorId
+    instructor : instructorId,
+    active : true
+ })
+ .populate({
+    path : "testimonials",
+    model : Testimonial
  })
  .populate({
     path : "category",
@@ -94,7 +84,7 @@ export async function getCourseDetailsByInstructor(instructorId) {
  }).populate({
     path : "instructor",
     model : User
- })
+ }).
  lean()
 
  const allCoursesIds = courses.map((course)=>course._id)
@@ -103,7 +93,18 @@ export async function getCourseDetailsByInstructor(instructorId) {
     course : {
         $in : allCoursesIds
     }
- })
+ }).populate({
+    path : "student",
+    model : User
+ }).lean()
+
+ const groupByCourses = groupBy(enrollments, (item)=>item.course);
+
+
+ const totalRevenue = courses.reduce((acc, course) => {
+    const enrollmentsForCourse = groupByCourses[course._id] || [];
+    return acc + enrollmentsForCourse.length * course.price;
+ }, 0);
 
  const totalEnrollments = enrollments.length
 
@@ -122,15 +123,25 @@ export async function getCourseDetailsByInstructor(instructorId) {
   const bio = courses.length > 0 ? courses[0].instructor.bio : 'No bio available';
   const instructorImage = courses.length > 0 ? courses[0].instructor.profilePicture : '/assets/images/default-profile.png';
 
+
+  if(expand) {
+    return {
+     'courses' : courses,
+    'enrollments':enrollments,
+    'reviews' : testimonials,     
+    }
+  }
+
  return {
     'courses' : courses.length,
     'enrollments':totalEnrollments,
     'reviews' : testimonials.length,
     'ratings':avgRating.toPrecision(2),
     'instructorName':instructorName,
-    'courses' : courses,
+    'inscourses' : courses,
     'designation' : designation,
     'bio' : bio,
-    'instructorImage' : instructorImage
+    'instructorImage' : instructorImage,
+    'revenue' : totalRevenue
  }
 }

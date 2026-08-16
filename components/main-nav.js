@@ -1,6 +1,6 @@
 'use client';
 import Link from 'next/link'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Logo from './logo'
 import { cn } from '@/lib/utils'
 import { X } from 'lucide-react'
@@ -14,6 +14,25 @@ import { useSession,signOut } from 'next-auth/react';
 const MainNav = ({items,children}) => {
     const [showMobileMenu,setShowMobileMenu] = useState(false);
     const {data:session} = useSession();
+
+    const [loggedInUser,setLoggedInUser] = useState(null);
+
+    useEffect(()=> {
+      async function fetchMe(){
+        try{
+            const response = await fetch('/api/me') 
+            const data = await response.json()     
+            setLoggedInUser(data)
+        }
+        catch(err){
+            console.log(err)
+        }
+      }
+
+      fetchMe()
+      
+    },[])
+
 
   return (
     <>
@@ -88,7 +107,7 @@ const MainNav = ({items,children}) => {
                     <div className='cursor-pointer'>
                        <Avatar>
                          <AvatarImage 
-                        src="https://github.com/shadcn.png"
+                    src={loggedInUser?.profilePicture}
                         alt=""
                         />
                         <AvatarFallback>CN</AvatarFallback>
@@ -98,6 +117,14 @@ const MainNav = ({items,children}) => {
                 </DropdownMenuTrigger>
 
                   <DropdownMenuContent align="end" className={"w-56 mt-4"}> 
+                    {
+                        loggedInUser?.role === 'instructor' && (
+                            <DropdownMenuItem className={'cursor-pointer'} asChild>
+                                <Link href={'/dashboard'}><strong>Instructor Dashboard</strong></Link>
+                            </DropdownMenuItem>
+                        )
+                    }
+
                     <DropdownMenuItem className={'cursor-pointer'} asChild>
                         <Link href={'/account'}>Profile</Link>
                     </DropdownMenuItem>

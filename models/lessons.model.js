@@ -12,24 +12,31 @@ const lessonSchema = new Schema({
     },
      duration : {
         type : Number,
-        required: true
+        required: true,
+        default : 0
     },
      video_url : {
         type : String,
-        required: true
+        required: false
     },
-    published : {
+    active : {
         type: Boolean,
-        required:true
+        required:true,
+        default: false
     },
     access : {
        required : true,
-       type : String
+       type : String,
+       default:'private'
     },
     slug : {
         type : String,
         required:true
+    },
+    order: {
+        type : Number,
+        required : true
     }
 })
 
-export const Lesson = mongoose.models.Lesson ?? mongoose.model('Lesson',lessonSchema)
+export const Lesson = mongoose.models?.Lesson ?? mongoose.model('Lesson',lessonSchema)
